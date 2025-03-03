@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schemas.platformatic.dev/@platformatic/composer/2.50.0.json",
+  "composer": {
+    "services": [
+      {
+        "id": "user",
+        "openapi": {
+          "url": "/documentation/json",
+          "prefix": "/user"
+        }
+      },
+      {
+        "id": "logger",
+        "openapi": {
+          "url": "/documentation/json",
+          "prefix": "/logger"
+        }
+      },
+      {
+        "id": "passwords",
+        "openapi": {
+          "url": "/documentation/json",
+          "prefix": "/passwords"
+        }
+      }
+    ],
+    "refreshTimeout": 1000
+  },
+  "plugins": {
+    "paths": [
+      {
+        "path": "./plugins",
+        "encapsulate": false
+      }
+    ],
+    "typescript": "{PLT_COMPOSER_TYPESCRIPT}"
+  },
+  "watch": true,
+  "metrics": false
+}
