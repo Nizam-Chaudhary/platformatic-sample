@@ -9,6 +9,7 @@ export default fastifyPlugin(async (fastify: FastifyInstance, opts: FastifyPlugi
         'postgresql://postgres:postgres@localhost:5432/test-db',
       );
     fastify.decorate('db', db);
+    fastify.log.info('Database connection established');
   } catch (error) {
     console.error('Error connecting to database:', error);
     // process.exit(1);

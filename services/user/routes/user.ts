@@ -5,7 +5,8 @@ export default async function (fastify: FastifyInstance) {
   fastify.post('/', async (req, res) => {
     try {
       const { name } = req.body as any
-      const user = fastify.db.query(sql`INSERT INTO user (name) VALUES (${name})`)
+      const query = sql`INSERT INTO users(name) VALUES (${name})`
+      const user = await fastify.db.query(query)
 
       return res.status(201).send({
         status: 201,
@@ -13,7 +14,7 @@ export default async function (fastify: FastifyInstance) {
         data: user
       })
     } catch(error) {
-      console.error(error)
+      fastify.log.error(error, "error")
       return res.status(500).send({
         status: 500,
         message: 'error',
@@ -24,7 +25,7 @@ export default async function (fastify: FastifyInstance) {
 
   fastify.get('/', async (req, res) => {
     try {
-      const user = fastify.db.query(sql`SELECT * FROM user`)
+      const user = await fastify.db.query(sql`SELECT * FROM users`)
 
       return res.status(200).send({
         status: 200,
@@ -32,7 +33,7 @@ export default async function (fastify: FastifyInstance) {
         data: user
       })
     } catch(error) {
-      console.error(error)
+      fastify.log.error(error, "error")
       return res.status(500).send({
         status: 500,
         message: 'error',
@@ -44,7 +45,7 @@ export default async function (fastify: FastifyInstance) {
   fastify.get('/:id', async (req, res) => {
       try {
         const { id } = req.params as any
-        const user = fastify.db.query(sql`SELECT * FROM user WHERE id = ${id}`)
+        const user = await  fastify.db.query(sql`SELECT * FROM users WHERE id = ${id}`)
 
         return res.status(200).send({
           status: 200,
@@ -54,7 +55,7 @@ export default async function (fastify: FastifyInstance) {
       }
 
     catch(error) {
-      console.error(error)
+      fastify.log.error(error, "error")
       return res.status(500).send({
         status: 500,
         message: 'error',
@@ -66,7 +67,7 @@ export default async function (fastify: FastifyInstance) {
   fastify.delete('/:id', async (req, res) => {
       try {
         const { id } = req.params as any
-        const user = fastify.db.query(sql`DELETE FROM user WHERE id = ${id}`)
+        const user = await fastify.db.query(sql`DELETE FROM users WHERE id = ${id}`)
 
         return res.status(200).send({
           status: 200,
@@ -76,7 +77,7 @@ export default async function (fastify: FastifyInstance) {
       }
 
     catch(error) {
-      console.error(error)
+      fastify.log.error(error, "error")
       return res.status(500).send({
         status: 500,
         message: 'error',
@@ -89,7 +90,7 @@ export default async function (fastify: FastifyInstance) {
     try {
       const { id } = req.params as any
       const { name } = req.body as any
-      const user = fastify.db.query(sql`UPDATE user SET name = ${name} WHERE id = ${id}`)
+      const user = await fastify.db.query(sql`UPDATE users SET name = ${name} WHERE id = ${id}`)
 
       return res.status(200).send({
         status: 200,
@@ -99,7 +100,7 @@ export default async function (fastify: FastifyInstance) {
 
     }
     catch(error) {
-      console.error(error)
+      fastify.log.error(error, "error")
       return res.status(500).send({
         status: 500,
         message: 'error',
